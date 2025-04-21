@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <limits>
 #include <cstdlib>
 #include <vector>
 #include <algorithm>
