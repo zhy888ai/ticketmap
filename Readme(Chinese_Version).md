@@ -96,11 +96,11 @@ int main() {
 
 **第一次在运行的时候出现一个小问题（图1）**
 
-![1745248916445](.\imges\run_problem1.png)
+![1745248916445](/imges/run_problem1.png)
 
 **利用Kimi找到了解决这个问题的办法**
 
-![1745249350575](.\imges\run_solution.png)
+![1745249350575](/imges/run_solution.png)
 
 
 
