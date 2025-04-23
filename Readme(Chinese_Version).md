@@ -88,7 +88,7 @@ int main() {
 
 **运行结果：**
 
-![1745249897527](.\imges\solution.png)
+![1745249897527](/imges/run_problem1.png)
 
 
 
