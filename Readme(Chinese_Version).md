@@ -29,9 +29,28 @@
 ticket_map<int, string> 变量名;
 ~~~
 
+**方法：**
+~~~cpp
+// insert("值") -- 给键插入值
+auto 键 = 变量名.insert(值);
+// 例
+auto ticket = map.insert("Hello World!");
+cout << ticket << endl;
+// 这里输出0 因为ticket从0自增
+cout << map[ticket] ;
+// 这里会输出答案值:Hello World!
+~~~
 
+~~~cpp
+// map.begin() - 返回迭代器的第一个参数
 
+auto one = map.insert("one");
+auto two = map.insert("two");
+auto three = map.insert("three");
 
+cout << map.begin().ticket << ' ' << map.begin().value << endl;
+// 答案输出为 0 one. 因为是添加的第一个键和它的值
+~~~
 
 
 
@@ -69,7 +88,7 @@ int main() {
 
 **运行结果：**
 
-![1745249897527](.\imges\solution.png)
+![1745249897527](/imges/run_problem1.png)
 
 
 
@@ -77,11 +96,11 @@ int main() {
 
 **第一次在运行的时候出现一个小问题（图1）**
 
-![1745248916445](.\imges\run_problem1.png)
+![1745248916445](/imges/run_problem1.png)
 
 **利用Kimi找到了解决这个问题的办法**
 
-![1745249350575](.\imges\run_solution.png)
+![1745249350575](/imges/run_solution.png)
 
 
 
@@ -91,4 +110,6 @@ int main() {
 
 - 只要把项目拉取下来，然后在编译的c++文件中去导入这个库，即可使用
 
-  ​												<!--陈佳宇-->
+- 如果直接拉取不可以的话或许是没有配置MinGW，这边我使用的是Clion，下载Clion会自带默认MinGW，如果还出现报错的话，那就把进入到MinGW的bin目录当中把地址复制到环境变量->系统变量->path中去配置 
+
+  <!--陈佳宇-->
