@@ -29,9 +29,28 @@
 ticket_map<int, string> 变量名;
 ~~~
 
+**方法：**
+~~~cpp
+// insert("值") -- 给键插入值
+auto 键 = 变量名.insert(值);
+// 例
+auto ticket = map.insert("Hello World!");
+cout << ticket << endl;
+// 这里输出0 因为ticket从0自增
+cout << map[ticket] ;
+// 这里会输出答案值:Hello World!
+~~~
 
+~~~cpp
+// map.begin() - 返回迭代器的第一个参数
 
+auto one = map.insert("one");
+auto two = map.insert("two");
+auto three = map.insert("three");
 
+cout << map.begin().ticket << ' ' << map.begin().value << endl;
+// 答案输出为 0 one. 因为是添加的第一个键和它的值
+~~~
 
 
 
