@@ -250,57 +250,70 @@ namespace jss {
 
         /// Find a value in the map by its ticket. Returns an iterator referring
         /// to the found element, or end() if no element could be found
+         /// 通过票证在映射中查找值。返回指向找到元素的迭代器，如果未找到元素则返回 end()
         constexpr const_iterator find(const Ticket &ticket) const noexcept {
             return {lookup(data, ticket), this};
         }
 
         /// Find a value in the map by its ticket. Returns an iterator referring
         /// to the found element, or end() if no element could be found
+         /// 通过票证在映射中查找值。返回指向找到元素的迭代器，如果未找到元素则返回 end()
         constexpr iterator find(const Ticket &ticket) noexcept {
             return {lookup(data, ticket), this};
         }
 
         /// Find a value in the map by its ticket. Returns a reference to the
         /// found element. Throws std:out_of_range if the value was not present.
+        /// 通过票证在映射中查找值。返回指向找到元素的引用。
+        ///如果值不存在，则抛出 std::out_of_range 异常。
         constexpr Value &operator[](const Ticket &ticket) {
             return index(data, ticket);
         }
 
         /// Find a value in the map by its ticket. Returns a reference to the
         /// found element. Throws std:out_of_range if the value was not present.
+        /// 通过票证在映射中查找值。返回指向找到元素的引用。如果值不存在，则抛出 std::out_of_range 异常。
         constexpr const Value &operator[](const Ticket &ticket) const {
             return index(data, ticket);
         }
 
         /// Returns an iterator to the first element, or end() if the container
         /// is empty
+          /// 返回指向第一个元素的迭代器，如果容器为空则返回 end()
         constexpr iterator begin() noexcept {
             return {next_valid(data.begin()), this};
         }
 
         /// Returns an iterator one-past-the-end of the container
+         /// 返回指向容器末尾后一个元素的 const_iterator
         constexpr iterator end() noexcept {
             return {data.end(), this};
         }
 
         /// Returns a const_iterator to the first element, or end() if the
         /// container is empty
+         /// 返回指向第一个元素的 const_iterator
+         ///如果容器为空则返回 cend()
         constexpr const_iterator begin() const noexcept {
             return {next_valid(data.begin()), this};
         }
 
         /// Returns a const_iterator one-past-the-end of the container
+        /// 返回指向容器末尾后一个元素的 const_iterator
         constexpr const_iterator end() const noexcept {
             return {data.end(), this};
         }
 
         /// Returns a const_iterator to the first element, or cend() if the
         /// container is empty
+        /// 返回指向第一个元素的 const_iterator
+        ///如果容器为空则返回 cend()
         constexpr const_iterator cbegin() const noexcept {
             return {next_valid(data.begin()), this};
         }
 
         /// Returns a const_iterator one-past-the-end of the container
+        /// 返回指向容器末尾后一个元素的 const_iterator
         constexpr const_iterator cend() const noexcept {
             return {data.end(), this};
         }
@@ -310,6 +323,10 @@ namespace jss {
         /// if there was no element with the specified ticket.
         /// Invalidates any existing iterators into the map.
         /// Compacts the data if there are too many empty slots.
+       /// 删除具有指定票证的元素。如果存在下一个元素，则返回指向下一个元素的迭代器，否则返回 end()。
+       ///如果未找到具有指定票证的元素，则返回 end()。
+       ///删除元素会使得所有现有的映射迭代器失效。
+       ///如果存在过多的空闲槽位，则压缩数据。
         constexpr iterator erase(const Ticket &ticket) noexcept {
             return {erase_entry(lookup(data, ticket)), this};
         }
