@@ -233,6 +233,8 @@ namespace jss {
         /// is assigned a new ticket value. Returns the ticket for the new
         /// entry. Invalidates any existing iterators into the map.
         /// Throws overflow_error if the Ticket values have overflowed.
+        /// 插入一个新值到映射中，在原地直接构造。它会被分配一个新的票据值。返回新条目的票据。会使映射中现有的任何迭代器失效。
+        /// 如果票据值已溢出，则抛出溢出异常。
         template <typename... Args> constexpr Ticket emplace(Args &&... args) {
             if(overflow)
                 throw std::overflow_error(
