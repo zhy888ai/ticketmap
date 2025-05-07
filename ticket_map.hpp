@@ -77,18 +77,23 @@ namespace jss {
                 /// The pointed-to value
                 value_type value;
             };
-
+            
         public:
             /// Required iterator typedefs
+            // 所需的迭代器类型定义
             using reference= value_type;
             /// Required iterator typedefs
+            ///所需的迭代器类型定义
             using iterator_category= std::input_iterator_tag;
             /// Required iterator typedefs
+            ///所需的迭代器类型定义
             using pointer= value_type *;
             /// Required iterator typedefs
+            ///所需的迭代器类型定义
             using difference_type= void;
 
             /// Compare iterators for inequality.
+            ///比较迭代器是否不相等
             friend bool operator!=(
                 iterator_impl const &lhs, iterator_impl const &rhs) noexcept {
                 return lhs.iter != rhs.iter;
@@ -96,28 +101,34 @@ namespace jss {
 
             /// Equality in terms of iterator_impls: if it's not not-equal then
             /// it must be equal
+            /*就迭代器实现而言的相等性：如果不是不相等，那么
+            它必须相等*/
             friend bool operator==(
                 iterator_impl const &lhs, iterator_impl const &rhs) noexcept {
                 return !(lhs != rhs);
             }
 
             /// Dereference the iterator
+            ///取消引用迭代器
             const value_type operator*() const noexcept {
                 return value_type{iter->first, *iter->second};
             }
 
             /// Dereference for iter->m
+            ///对 iter->m 进行解引用（即通过指针/迭代器访问成员 m）
             arrow_proxy operator->() const noexcept {
                 return arrow_proxy{value_type{iter->first, *iter->second}};
             }
 
             /// Pre-increment
+            ///前置递增
             iterator_impl &operator++() noexcept {
                 iter= map->next_valid(++iter);
                 return *this;
             }
 
             /// Post-increment
+            ///后增量
             iterator_impl operator++(int) noexcept {
                 iterator_impl temp{*this};
                 ++*this;
@@ -126,6 +137,8 @@ namespace jss {
 
             /// Allow constructing a const_iterator from a non-const iterator,
             /// but not vice-versa
+            /*允许从非const迭代器构造const迭代器，
+            但反之不可。*/
             template <
                 typename Other,
                 typename= std::enable_if_t<
@@ -135,6 +148,7 @@ namespace jss {
                 iter(other.iter), map(other.map) {}
 
             /// A default-constructed iterator is a sentinel value
+            ///默认构造的迭代器是一个哨兵值
             constexpr iterator_impl() noexcept= default;
 
         private:
@@ -149,12 +163,15 @@ namespace jss {
                 std::conditional_t<is_const, ticket_map const *, ticket_map *>;
 
             /// Construct from an iterator into a map
+            ///通过迭代器构造映射
             constexpr iterator_impl(underlying_iterator iter_, map_ptr map_) :
                 iter(std::move(iter_)), map(map_) {}
 
             /// The stored iterator
+            ///存储的迭代器​
             underlying_iterator iter;
             /// The map
+            ///​​映射
             map_ptr map;
         };
 
