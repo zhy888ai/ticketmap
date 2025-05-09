@@ -159,3 +159,25 @@ int main() {
 - `map_ptr` 类型说明  
   `指向所属容器的指针`
   <!--by 陈蓉蓉-->
+
+### 400-480行翻译
+1. Return the maximum number of items that can be inserted without
+ reallocating
+**返回在不需要重新分配内存的情况下可以插入的最大项目数。**
+
+2. Return the number of entries for a ticket in the container. Thereturn value is 1 if the ticket is in the container, 0 otherwise.
+**返回容器中票证的条目数量。如果票证在容器中，则返回值为1，否则为0。**
+
+3. Erase an entry referenced by an iterator into the internal vector
+**删除内部向量中由迭代器引用的条目**
+
+4. Returns true if the container has too many empty slot, falseotherwise
+**如果容器中有太多空槽，则返回true，否则返回false。**
+
+5. Compact the container to remove all empty slots.
+**压缩容器以移除所有空槽**
+
+6. Increment a ticket and check for overflow (generic)
+**增加票证并检查溢出（通用）**
+<br>
+<!-- by 陈桂生 -->
