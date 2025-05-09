@@ -165,7 +165,7 @@ namespace jss {
         /// Standard const_iterator typedef
 
         using const_iterator= iterator_impl<true>;
-
+        
         /// Construct an empty map
 
         constexpr ticket_map() noexcept : nextId(), filledItems(0) {}
