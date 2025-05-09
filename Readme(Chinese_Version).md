@@ -113,3 +113,74 @@ int main() {
 - 如果直接拉取不可以的话或许是没有配置MinGW，这边我使用的是Clion，下载Clion会自带默认MinGW，如果还出现报错的话，那就把进入到MinGW的bin目录当中把地址复制到环境变量->系统变量->path中去配置 
 
   <!--陈佳宇-->
+
+
+### 标准迭代器类型定义
+- ` Standard iterator typedef`
+  `标准迭代器类型定义`
+- ` Standard const_iterator typedef `
+` 标准常量迭代器类型定义`
+
+### 空映射构造
+-  ` Construct an empty map  `
+`构造一个空映射`
+
+### 范围构造
+- ` Construct a map from a range of elements `
+`从元素范围构造映射`
+
+### 移动构造
+-  `Move-construct from other. The elements of other are transferred to this; other is left empty 到 **this**` 
+`从其他对象移动构造。将其他对象的元素转移到新对象，原对象变为空`
+
+### 拷贝构造
+-  `Copy-construct from other. this will have the same elements and next ticket value as other. `
+`从另一个对象复制构造。新对象包含与原对象相同的元素和下一个票证值`
+
+### 拷贝赋值
+-  `Copy-assign from other `
+`拷贝赋值操作`
+
+### 移动赋值
+-  `Move-assign from other `
+`移动赋值操作`
+
+### 成员函数 empty()
+-  `Returns true if there are no elements currently in the map, false otherwise`
+ `返回当前映射是否为空`
+
+### size()
+-  `Returns the number of elements currently in the map `
+ `返回当前映射的元素数量`
+
+### insert(value)
+-   `Insert a new value into the map. It is assigned a new ticket value.`
+`插入新值到映射。分配新票证值`
+-  ` Returns the ticket for the new entry. `
+`返回新条目的票证`
+-  `Invalidates any existing iterators into the map. `
+`使所有现有迭代器失效`
+-  `Throws overflow_error if the Ticket values have overflowed. `
+`票证溢出时抛出 overflow_error 异常`
+
+### insert(range)
+-  ` Insert a set of new values into the map. Each is assigned a new   ticket value. `
+`批量插入新值。每个元素分配新票证值。`
+- `Returns an iterator that references the first new  or end() if no values were inserted. `
+`返回指向第一个新插入元素的迭代器（若无插入则返回 end()）`
+-  `Invalidates any existing iterators into the map. `
+`使所有现有迭代器失效`
+-  `Throws overflow_error if the Ticket values have overflowed. `
+`票证溢出时抛出 overflow_error 异常`
+
+### emplace(args...)
+-  `Insert a new value into the map, directly constructing in place.`
+`将一个新值插入映射中，并直接在原地构造。`
+-  `It  is assigned a new ticket value. Returns the ticket for the new  entry.`
+ `它被分配了一个新的票证值。返回新条目的票证。`
+-  ` Invalidates any existing iterators into the map. `
+`使所有现有迭代器失效`
+-  `Throws overflow_error if the Ticket values have overflowed. `
+`票证溢出时抛出 overflow_error 异常`
+
+ <!--by 龚祀玲-->
