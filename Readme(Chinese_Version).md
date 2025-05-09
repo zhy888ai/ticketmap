@@ -113,3 +113,49 @@ int main() {
 - 如果直接拉取不可以的话或许是没有配置MinGW，这边我使用的是Clion，下载Clion会自带默认MinGW，如果还出现报错的话，那就把进入到MinGW的bin目录当中把地址复制到环境变量->系统变量->path中去配置 
 
   <!--陈佳宇-->
+
+## 7.翻译
+### 80~125行（类型定义注释）
+- `Required iterator typedefs`  
+  `所需的迭代器类型定义`
+- `Compare iterators for inequality.`  
+  `比较迭代器是否不相等`
+- `Equality in terms of iterator_impls: if it's not not-equal then it must be equal`  
+  `就迭代器实现而言的相等性：如果不是不相等，那么它必须相等`
+- `Dereference the iterator`  
+  `取消引用迭代器`
+- `Dereference for iter->m`  
+  `对 iter->m 进行解引用（即通过指针/迭代器访问成员 m）`
+- `Pre-increment`  
+  `前置递增`
+- `Post-increment`  
+  `后增量`
+
+---
+
+### 127~138行（构造方法注释）
+- `Allow constructing a const_iterator from a non-const iterator, but not vice-versa`  
+  `允许从非const迭代器构造const迭代器，但反之不可。`
+- `A default-constructed iterator is a sentinel value`  
+  `默认构造的迭代器是一个哨兵值`
+
+---
+
+### 140~160行（实现细节注释）
+- `Construct from an iterator into a map`  
+  `通过迭代器构造映射`
+- `The stored iterator`  
+  `存储的迭代器`
+- `The map`  
+  `映射`
+
+---
+
+### 80~160行中代码特殊实现说明
+- `arrow_proxy operator->()`  
+  `通过指针代理访问元素成员（实现 iter->m 语法）`
+- `underlying_iterator` 类型说明  
+  `底层容器迭代器（根据 is_const 选择 const/non-const 版本）`
+- `map_ptr` 类型说明  
+  `指向所属容器的指针`
+  <!--by 陈蓉蓉-->
