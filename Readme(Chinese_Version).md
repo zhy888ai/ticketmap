@@ -160,6 +160,138 @@ int main() {
   `指向所属容器的指针`
   <!--by 陈蓉蓉-->
 
+<hr>
+
+### 320-400行翻译
+
+```cpp
+// Remove the element referenced by the provided iterator.
+/// Returns an iterator to the next element if there is one, or end()
+/// otherwise.
+/// Invalidates any existing iterators into the map.
+/// Compacts the data if there are too many empty slots.
+
+// 移除所提供的迭代器引用的元素。
+// 如果有下一个元素，则返回一个迭代器，否则返回end（）。
+// 使映射中所有现有的迭代器失效。
+// 如果存在过多的空闲槽位，则会压缩数据。
+constexpr iterator erase(const_iterator pos) noexcept {
+            return {erase_entry(data.begin() + (pos.iter - data.begin())),
+                    this};
+        }
+
+
+```
+
+```cpp
+/// Swap the contents with other. Afterwards, other has the contents and
+/// next ticket value of *this prior to the call, and *this has the
+/// contents and next ticket value of other prior to the call.
+
+/// 与另一个 `ticket_map` 对象交换内容。交换后，`other` 将包含调用前 `*this` 的内容和下一个票据值，
+/// 而 `*this` 将包含调用前 `other` 的内容和下一个票据值。
+constexpr void swap(ticket_map &other) noexcept {
+            data.swap(other.data);
+            std::swap(filledItems, other.filledItems);
+            std::swap(nextId, other.nextId);
+        }
+
+
+```
+
+```cpp
+/// Remove all elements from *this. Invalidates all iterators into the
+/// map.
+
+/// 从 `*this` 中移除所有元素。此操作会使映射中所有迭代器失效。
+
+constexpr void clear() noexcept {
+            data.clear();
+            filledItems= 0;
+        }
+```
+
+```cpp
+/// Ensure the map has room for at least count items
+
+/// 确保映射至少可以容纳 `count` 个元素。
+
+constexpr void reserve(std::size_t count) {
+    if (count > size()) {
+        collection_type new_data;
+        new_data.reserve(count);
+        for (auto &[ticket, value] : data) {
+            if (value) {
+                new_data.emplace_back(
+                    std::move(ticket), std::move(value));
+            }
+        }
+        data.swap(new_data);
+    } else {
+        compact();
+    }
+}
+```
+
+```cpp
+/// Return the maximum number of items that can be inserted without
+/// reallocating
+
+/// 返回在不需要重新分配内存的情况下可以插入的最大元素数量。
+constexpr std::size_t insert_capacity() const noexcept {
+    return data.capacity() - data.size();
+}
+```
+
+```cpp
+/// Return the number of entries for a ticket in the container. The
+/// return value is 1 if the ticket is in the container, 0 otherwise.
+
+/// 返回映射中指定票据的条目数量。如果票据存在于映射中，则返回值为 1，否则为 0。
+
+constexpr std::size_t count(Ticket const &ticket) const noexcept {
+            return (lookup(data, ticket) == data.end()) ? 0 : 1;
+        }
+```
+
+```cpp
+/// Find the next valid iterator into the map
+
+/// 查找映射中的下一个有效迭代器。
+    template <typename Iter>
+    constexpr Iter next_valid(Iter iter) const noexcept {
+        for (; iter != data.end() && !iter->second; ++iter)
+            ;
+        return iter;
+    }
+
+```
+
+```cpp
+/// Erase an entry referenced by an iterator into the internal vector
+
+ /// 删除内部向量中由迭代器引用的条目。
+    constexpr typename collection_type::iterator
+    erase_entry(typename collection_type::iterator iter) {
+        if (iter != data.end()) {
+            iter->second.reset();
+            iter = next_valid(iter);
+            --filledItems;
+            if (needs_compaction()) {
+                auto ticket = iter != data.end() ? iter->first :
+                                                        std::optional<Ticket>();
+                compact();
+                iter = ticket ? lookup(data, *ticket) : data.end();
+            }
+        }
+        return iter;
+    }
+```
+
+<!-- by 陈明旭 -->
+
+<hr>
+
 ### 400-480行翻译
 1. Return the maximum number of items that can be inserted without
  reallocating
