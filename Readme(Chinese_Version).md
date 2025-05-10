@@ -115,6 +115,132 @@ int main() {
   <!--陈佳宇-->
 
 ## 7.翻译
+
+### 1~80行（管理单调递增的 ID 与对应值之间的映射关系）
+
+```cpp
+// This code is released under the Boost Software License
+// https://www.boost.org/LICENSE_1_0.txt
+// (C) Copyright 2021 Anthony Williams
+
+// 此代码根据 Boost 软件许可证发布
+// https://www.boost.org/LICENSE_1_0.txt
+// (C) 版权所有 2021 Anthony Williams
+```
+
+```cpp
+/// A map between from Ticket values to Value values.
+///
+/// Ticket must be default-constructible, incrementable, less-than
+/// comparable and equality-comparable. Value must be move-constructible
+///
+/// When new values are inserted they are assigned new Ticket values
+/// automatically. If the Ticket value overflows then no more values can be
+/// inserted.
+
+/// 一个从票证值到值之间的映射。
+
+///
+/// 票证类型（Ticket）必须是可默认构造的、可递增的、可进行小于比较的以及可进行相等比较的。值类型（Value）必须是可移动构造的。
+///
+/// 当插入新值时，它们会自动被分配新的票证值。如果票证值溢出，那么就不能再插入更多的值。
+```
+
+template <typename Ticket, typename Value> class ticket_map {
+    static_assert(
+        std::is_default_constructible<Ticket>(),
+        "票证类型（Ticket）必须是可默认构造的");
+    static_assert (
+        std::is_same_v<decltype (std::declval<Ticket &>()++), Ticket>,
+        "票证类型（Ticket）必须是可后置递增的");
+    static_assert (
+        std::is_same_v<
+            decltype (std::declval<Ticket &>() < std::declval<Ticket &>()),
+            bool>,
+        "票证类型（Ticket）必须是可进行小于比较的");
+    static_assert (
+        std::is_same_v<
+            decltype (std::declval<Ticket &>() == std::declval<Ticket &>()),
+            bool>,
+        "票证类型（Ticket）必须是可进行相等比较的");
+    static_assert (
+        std::is_same_v<
+            decltype (std::declval<Ticket &>() != std::declval<Ticket &>()),
+            bool>,
+        "票证类型（Ticket）必须是可进行不等比较的");
+
+
+
+```cpp
+/// The type of the actual storage 
+/// 实际存储的类型
+```
+
+   
+
+ using collection_type=
+        std::vector<std::pair<Ticket, std::optional<Value>>>;
+
+```cpp
+/// The iterator for our map
+/// 我们映射的迭代器
+```
+
+   
+
+ template <bool is_const> class iterator_impl {
+        using dereference_type=
+            std::conditional_t<is_const, Value const &, Value &>;
+    
+
+```cpp
+public:
+            /// The value_type of our iterator is a ticket/value pair. We use
+            /// references, since the underlying storage doesn't hold the same
+            /// member types
+            struct value_type {
+            /// A reference to the ticket value for this element
+                Ticket const &ticket;
+            /// A reference to the data value for this element
+                dereference_type value;
+            };
+public:
+            /// 我们迭代器的 value_type 是一个票证 / 值对。我们使用引用，因为底层存储并不持有相同的成员类型
+        	struct value_type {
+            /// 对此元素的票证值的引用
+            	Ticket const &ticket;
+            /// 对此元素的数据值的引用
+            	dereference_type value;
+      	 	};
+```
+
+```cpp
+private:
+            /// It's an input iterator, so we need a proxy for ->
+            struct arrow_proxy {
+            /// Our proxy operator->
+                value_type *operator->() noexcept {
+                    return &value;
+                }
+            /// The pointed-to value
+                value_type value;
+            };
+private:
+       	   /// 它是一个输入迭代器，所以我们需要一个用于 -> 的代理
+           struct arrow_proxy {
+            /// 我们的代理操作符 ->
+            value_type *operator->() noexcept {
+                return &value;
+            	}
+            /// 被指向的值
+            	value_type value;
+        	};
+```
+
+
+
+<!--by 张皓煜-->
+
 ### 80~125行（类型定义注释）
 - `Required iterator typedefs`  
   `所需的迭代器类型定义`
@@ -160,155 +286,18 @@ int main() {
   `指向所属容器的指针`
   <!--by 陈蓉蓉-->
 
-<hr>
-
-### 320-400行翻译
-
-```cpp
-// Remove the element referenced by the provided iterator.
-/// Returns an iterator to the next element if there is one, or end()
-/// otherwise.
-/// Invalidates any existing iterators into the map.
-/// Compacts the data if there are too many empty slots.
-
-// 移除所提供的迭代器引用的元素。
-// 如果有下一个元素，则返回一个迭代器，否则返回end（）。
-// 使映射中所有现有的迭代器失效。
-// 如果存在过多的空闲槽位，则会压缩数据。
-constexpr iterator erase(const_iterator pos) noexcept {
-            return {erase_entry(data.begin() + (pos.iter - data.begin())),
-                    this};
-        }
-
-
-```
-
-```cpp
-/// Swap the contents with other. Afterwards, other has the contents and
-/// next ticket value of *this prior to the call, and *this has the
-/// contents and next ticket value of other prior to the call.
-
-/// 与另一个 `ticket_map` 对象交换内容。交换后，`other` 将包含调用前 `*this` 的内容和下一个票据值，
-/// 而 `*this` 将包含调用前 `other` 的内容和下一个票据值。
-constexpr void swap(ticket_map &other) noexcept {
-            data.swap(other.data);
-            std::swap(filledItems, other.filledItems);
-            std::swap(nextId, other.nextId);
-        }
-
-
-```
-
-```cpp
-/// Remove all elements from *this. Invalidates all iterators into the
-/// map.
-
-/// 从 `*this` 中移除所有元素。此操作会使映射中所有迭代器失效。
-
-constexpr void clear() noexcept {
-            data.clear();
-            filledItems= 0;
-        }
-```
-
-```cpp
-/// Ensure the map has room for at least count items
-
-/// 确保映射至少可以容纳 `count` 个元素。
-
-constexpr void reserve(std::size_t count) {
-    if (count > size()) {
-        collection_type new_data;
-        new_data.reserve(count);
-        for (auto &[ticket, value] : data) {
-            if (value) {
-                new_data.emplace_back(
-                    std::move(ticket), std::move(value));
-            }
-        }
-        data.swap(new_data);
-    } else {
-        compact();
-    }
-}
-```
-
-```cpp
-/// Return the maximum number of items that can be inserted without
-/// reallocating
-
-/// 返回在不需要重新分配内存的情况下可以插入的最大元素数量。
-constexpr std::size_t insert_capacity() const noexcept {
-    return data.capacity() - data.size();
-}
-```
-
-```cpp
-/// Return the number of entries for a ticket in the container. The
-/// return value is 1 if the ticket is in the container, 0 otherwise.
-
-/// 返回映射中指定票据的条目数量。如果票据存在于映射中，则返回值为 1，否则为 0。
-
-constexpr std::size_t count(Ticket const &ticket) const noexcept {
-            return (lookup(data, ticket) == data.end()) ? 0 : 1;
-        }
-```
-
-```cpp
-/// Find the next valid iterator into the map
-
-/// 查找映射中的下一个有效迭代器。
-    template <typename Iter>
-    constexpr Iter next_valid(Iter iter) const noexcept {
-        for (; iter != data.end() && !iter->second; ++iter)
-            ;
-        return iter;
-    }
-
-```
-
-```cpp
-/// Erase an entry referenced by an iterator into the internal vector
-
- /// 删除内部向量中由迭代器引用的条目。
-    constexpr typename collection_type::iterator
-    erase_entry(typename collection_type::iterator iter) {
-        if (iter != data.end()) {
-            iter->second.reset();
-            iter = next_valid(iter);
-            --filledItems;
-            if (needs_compaction()) {
-                auto ticket = iter != data.end() ? iter->first :
-                                                        std::optional<Ticket>();
-                compact();
-                iter = ticket ? lookup(data, *ticket) : data.end();
-            }
-        }
-        return iter;
-    }
-```
-
-<!-- by 陈明旭 -->
-
-<hr>
-
 ### 400-480行翻译
 1. Return the maximum number of items that can be inserted without
  reallocating
 **返回在不需要重新分配内存的情况下可以插入的最大项目数。**
-
 2. Return the number of entries for a ticket in the container. Thereturn value is 1 if the ticket is in the container, 0 otherwise.
 **返回容器中票证的条目数量。如果票证在容器中，则返回值为1，否则为0。**
-
 3. Erase an entry referenced by an iterator into the internal vector
 **删除内部向量中由迭代器引用的条目**
-
 4. Returns true if the container has too many empty slot, falseotherwise
 **如果容器中有太多空槽，则返回true，否则返回false。**
-
 5. Compact the container to remove all empty slots.
 **压缩容器以移除所有空槽**
-
 6. Increment a ticket and check for overflow (generic)
 **增加票证并检查溢出（通用）**
 <br>
