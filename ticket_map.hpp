@@ -160,18 +160,18 @@ namespace jss {
 
     public:
         /// Standard iterator typedef、
-        /// 标准迭代器类型定义
+        
         using iterator= iterator_impl<false>;
         /// Standard const_iterator typedef
-        /// 标准常量迭代器类型定义
+        
         using const_iterator= iterator_impl<true>;
 
         /// Construct an empty map
-        ///构造一个空的映射
+        
         constexpr ticket_map() noexcept : nextId(), filledItems(0) {}
 
         /// Construct a map from a range of elements
-        /// 从元素范围构造一个映射
+        
         template <typename Iter>
         constexpr ticket_map(Iter first, Iter last) : ticket_map() {
             insert(first, last);
@@ -179,26 +179,24 @@ namespace jss {
 
         /// Move-construct from other. The elements of other are transferred to
         /// *this; other is left empty
-        /// 从另一个对象移动构造。另一个对象的元素被转移到另一个
-        /// 对象被留下为空。
+        
         constexpr ticket_map(ticket_map &&other) noexcept :
             nextId(std::move(other.nextId)), data(std::move(other.data)),
             filledItems(std::move(other.filledItems)) {
             other.filledItems= 0;
         }
         /// Copy-construct from other. *this will have the same elements and
-        /// next ticket value as other. 
-        /// 从另一个对象复制构造。`*this` 将具有相同的元素并且下一个票证值与另一个对象相同。
+
         constexpr ticket_map(ticket_map const &other)= default;
         /// Copy-assign from other
-        /// 从另一个对象进行复制赋值
+        
         constexpr ticket_map &operator=(ticket_map const &other) {
             ticket_map temp(other);
             swap(temp);
             return *this;
         }
         /// Move-assign from other
-         /// 从另一个对象进行移动赋值
+         
         constexpr ticket_map &operator=(ticket_map &&other) noexcept {
             ticket_map temp(std::move(other));
             swap(temp);
@@ -207,14 +205,13 @@ namespace jss {
 
         /// Returns true if there are no elements currently in the map, false
         /// otherwise
-        /// 如果当前映射中没有元素，则返回 `true`，否则返回 `false`。
-        /// 否则
+       
         constexpr bool empty() const noexcept {
             return size() == 0;
         }
 
         /// Returns the number of elements currently in the map
-         /// 返回当前映射中的元素数量
+         
         constexpr std::size_t size() const noexcept {
             return filledItems;
         }
@@ -223,10 +220,7 @@ namespace jss {
         /// Returns the ticket for the new entry.
         /// Invalidates any existing iterators into the map.
         /// Throws overflow_error if the Ticket values have overflowed.
-        /// 将一个新值插入映射中。它被分配了一个新的票证值。
-        /// 返回新条目的票证。
-        /// 使任何现有的映射迭代器失效
-        /// 如果票证值溢出，则抛出 `overflow_error`。
+      
         constexpr Ticket insert(Value v) {
             return emplace(std::move(v));
         }
@@ -236,11 +230,7 @@ namespace jss {
         /// entry, or end() if no values were inserted.
         /// Invalidates any existing iterators into the map.
         /// Throws overflow_error if the Ticket values have overflowed.
-        /// 将一组新值插入映射中。每个值都被分配一个新票证值。
-        /// 返回一个迭代器，它引用第一个新条目，
-        /// 或者如果没有任何值被插入，则返回 `end()`。
-        /// 使任何现有的映射迭代器失效。
-        /// 如果票证值溢出，则抛出 `overflow_error`。
+      
         template <typename Iter>
         constexpr iterator insert(Iter first, Iter last) {
             auto const index= data.size();
@@ -254,10 +244,7 @@ namespace jss {
         /// is assigned a new ticket value. Returns the ticket for the new
         /// entry. Invalidates any existing iterators into the map.
         /// Throws overflow_error if the Ticket values have overflowed.
-        /// 将一个新值插入映射中，并直接在原地构造。
-        /// 它被分配了一个新的票证值。返回新条目的票证。
-        /// 使任何现有的映射迭代器失效。
-        /// 如果票证值溢出，则抛出 `overflow_error`。
+        
         template <typename... Args> constexpr Ticket emplace(Args &&... args) {
             if(overflow)
                 throw std::overflow_error(
