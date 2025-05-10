@@ -286,6 +286,34 @@ private:
   `指向所属容器的指针`
   <!--by 陈蓉蓉-->
 
+
+### 240-320行代码翻译
+### 插入操作注释
+- `Insert a new value into the map, directly constructing in place. It is assigned a new ticket value. Returns the ticket for the new entry. Invalidates any existing iterators into the map. Throws overflow_error if the Ticket values have overflowed.`  
+  `插入一个新值到映射中，在原地直接构造。它会被分配一个新的票据值。返回新条目的票据。会使映射中现有的任何迭代器失效。如果票据值已溢出，则抛出溢出异常。`
+
+### 查找操作注释
+- `Find a value in the map by its ticket. Returns an iterator referring to the found element, or end() if no element could be found`  
+  `通过票证在映射中查找值。返回指向找到元素的迭代器，如果未找到元素则返回 end()`
+
+- `Find a value in the map by its ticket. Returns a reference to the found element. Throws std:out_of_range if the value was not present.`  
+  `通过票证在映射中查找值。返回指向找到元素的引用。如果值不存在，则抛出 std::out_of_range 异常。`
+
+### 迭代器操作注释
+- `Returns an iterator to the first element, or end() if the container is empty`  
+  `返回指向第一个元素的迭代器，如果容器为空则返回 end()`
+
+- `Returns an iterator one-past-the-end of the container`  
+  `返回指向容器末尾后一个元素的 const_iterator`
+
+- `Returns a const_iterator to the first element, or end() if the container is empty`  
+  `返回指向第一个元素的 const_iterator。如果容器为空则返回 cend()`
+
+- `Returns a const_iterator one-past-the-end of the container`  
+  `返回指向容器末尾后一个元素的 const_iterator`
+
+  <!-- by 岑允欣 -->
+  
 ### 400-480行翻译
 1. Return the maximum number of items that can be inserted without
  reallocating
