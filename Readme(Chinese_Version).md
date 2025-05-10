@@ -311,7 +311,19 @@ private:
 
 - `Returns a const_iterator one-past-the-end of the container`  
   `返回指向容器末尾后一个元素的 const_iterator`
+### 删除操作注释
+- `Remove an element with the specified ticket. Returns an iterator to the next element if there is one, or end() otherwise. Returns end() if there was no element with the specified ticket. Invalidates any existing iterators into the map. Compacts the data if there are too many empty slots.`  
+  `删除具有指定票证的元素。如果存在下一个元素，则返回指向下一个元素的迭代器，否则返回 end()。如果未找到具有指定票证的元素，则返回 end()。删除元素会使得所有现有的映射迭代器失效。如果存在过多的空闲槽位，则压缩数据。`
 
+### 特殊机制注释
+- `Invalidates any existing iterators`  
+  `会使现有迭代器失效`
+
+- `Throws overflow_error`  
+  `抛出溢出异常`
+
+- `Compacts the data`  
+  `压缩数据`
   <!-- by 岑允欣 -->
   
 ### 400-480行翻译
