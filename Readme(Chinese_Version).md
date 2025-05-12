@@ -318,12 +318,11 @@ private:
 ### 特殊机制注释
 - `Invalidates any existing iterators`  
   `会使现有迭代器失效`
-
 - `Throws overflow_error`  
   `抛出溢出异常`
-
 - `Compacts the data`  
   `压缩数据`
+  
   <!-- by 岑允欣 -->
   
 ### 400-480行翻译
